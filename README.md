@@ -48,7 +48,8 @@ Edit `site.config.json`:
   "whisper_model": "~/whisper-models/ggml-medium.en.bin",
   "default_speaker": "SPEAKER",
   "speaker_map": "",
-  "auto_push": true
+  "auto_push": true,
+  "disclaimer": "This is an unofficial fan site..."
 }
 ```
 
@@ -61,6 +62,7 @@ Edit `site.config.json`:
 | `default_speaker` | Speaker label used when diarization is off (e.g. `HOST` for a solo show). |
 | `speaker_map` | Renames diarization labels, e.g. `SPEAKER_00=ALEX,SPEAKER_01=SAM`. |
 | `auto_push` | Commit and push each transcript as soon as it's written. |
+| `disclaimer` | Optional note shown in a footer on every page (leave empty to hide it). |
 
 Then commit and push your config:
 

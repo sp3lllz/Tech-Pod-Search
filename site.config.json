@@ -6,5 +6,6 @@
   "whisper_model": "~/whisper-models/ggml-medium.en.bin",
   "default_speaker": "SPEAKER",
   "speaker_map": "",
-  "auto_push": true
+  "auto_push": true,
+  "disclaimer": "This is an unofficial fan site and isn't affiliated with Brad, Will or the show. Every transcript was generated automatically by an on-device speech-to-text model (Whisper) running on my Mac Mini, so expect the occasional misheard word or mixed-up name."
 }
