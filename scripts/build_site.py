@@ -153,6 +153,8 @@ EPISODE_TEMPLATE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
 <title>Ep. {number} — {title} · {site_title}</title>
 <meta name="description" content="Full transcript of {site_title} episode {number}: {title}">
 {fonts}
@@ -184,6 +186,8 @@ INDEX_TEMPLATE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
 <title>{site_title} — Transcript Archive</title>
 <meta name="description" content="{tagline}">
 {fonts}

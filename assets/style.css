@@ -4,6 +4,9 @@
    gig poster, with a waveform strip as the signature mark.
 --------------------------------------------------------- */
 :root {
+  /* The site has one fixed palette. Tell browsers not to auto-darken it
+     (Chrome/Samsung "force dark", iOS/Android dark-mode repainting). */
+  color-scheme: only light;
   --bg: #650777;          /* podcast purple */
   --bg-deep: #4a0558;     /* shadow / raised surfaces */
   --bg-raised: #57066a;
