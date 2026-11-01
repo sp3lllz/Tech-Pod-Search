@@ -34,6 +34,7 @@ DEFAULT_CONFIG = {
     "default_speaker": "SPEAKER",
     "speaker_map": "",
     "auto_push": True,
+    "disclaimer": "",
 }
 
 

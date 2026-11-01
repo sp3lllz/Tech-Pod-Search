@@ -31,9 +31,36 @@ FONTS_LINK = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
-    'family=Archivo:wdth,wght@100..125,400..700&family=IBM+Plex+Mono:wght@400&'
+    'family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Mono:wght@400&'
     'family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">'
 )
+
+
+def waveform_svg(bars: int = 96) -> str:
+    """A decorative waveform strip, drawn as SVG bars. The heights come from a
+    few layered sine waves, so it's the same on every build (no randomness)."""
+    import math
+    rects = []
+    for i in range(bars):
+        x = i / bars
+        amp = (0.55 * abs(math.sin(x * 9.1)) + 0.3 * abs(math.sin(x * 23.7 + 1.3))
+               + 0.15 * abs(math.sin(x * 51.3 + 0.4)))
+        envelope = 0.35 + 0.65 * math.sin(math.pi * x)
+        h = max(2.0, 48 * amp * envelope)
+        rects.append(f'<rect x="{i * 10}" y="{(48 - h) / 2:.1f}" width="5" height="{h:.1f}" rx="2.5"/>')
+    return (f'<svg class="waveform" viewBox="0 0 {bars * 10 - 5} 48" preserveAspectRatio="none" '
+            f'aria-hidden="true" focusable="false">{"".join(rects)}</svg>')
+
+
+WAVEFORM = waveform_svg()
+
+
+def footer_html(config) -> str:
+    disclaimer = config.get("disclaimer", "").strip()
+    if not disclaimer:
+        return ""
+    return (f'<footer class="site-footer"><p><strong>Disclaimer</strong>'
+            f'{html.escape(disclaimer)}</p></footer>')
 
 
 def parse_frontmatter(text: str):
@@ -141,11 +168,12 @@ EPISODE_TEMPLATE = """<!doctype html>
       <p class="meta-line">{meta_line}</p>
     </div>
   </header>
-  <div class="waveform-rule" aria-hidden="true"></div>
+  {waveform}
   <main class="transcript" data-pagefind-body>
     {body}
   </main>
   <nav class="ep-nav">{prev_link}{next_link}</nav>
+  {footer}
 </div>
 </body>
 </html>
@@ -165,17 +193,20 @@ INDEX_TEMPLATE = """<!doctype html>
 <body>
 <div class="wrap">
   <header class="hero">
+    <div class="sticker" aria-hidden="true">Fan<br>made</div>
     <p class="eyebrow">Transcript Archive</p>
     <h1>{site_title}</h1>
     <p class="hero-sub">{tagline} {count} episode{plural} and counting.{podcast_link}</p>
     <div id="search"></div>
   </header>
-  <div class="waveform-rule" aria-hidden="true"></div>
+  {waveform}
   <main>
+    <h2 class="list-heading">All episodes &middot; newest first</h2>
     <ul class="ledger">
       {rows}
     </ul>
   </main>
+  {footer}
 </div>
 <script src="pagefind/pagefind-ui.js"></script>
 <script>
@@ -200,6 +231,7 @@ ROW_TEMPLATE = """<li class="ledger-row">
 def build():
     config = load_config()
     site_title = html.escape(config["title"])
+    footer = footer_html(config)
 
     if PUBLIC_DIR.exists():
         shutil.rmtree(PUBLIC_DIR)
@@ -223,6 +255,8 @@ def build():
             title=html.escape(ep["title"]),
             site_title=site_title,
             fonts=FONTS_LINK,
+            waveform=WAVEFORM,
+            footer=footer,
             meta_line=" &middot; ".join(html.escape(p) for p in meta_parts if p),
             body=ep["body_html"],
             prev_link=(f'<a class="prev" href="{prev_ep["slug"]}.html">&larr; {html.escape(prev_ep["title"])}</a>'
@@ -249,6 +283,8 @@ def build():
         site_title=site_title,
         tagline=html.escape(config["tagline"]),
         fonts=FONTS_LINK,
+        waveform=WAVEFORM,
+        footer=footer,
         count=len(episodes),
         plural="" if len(episodes) == 1 else "s",
         podcast_link=podcast_link,
