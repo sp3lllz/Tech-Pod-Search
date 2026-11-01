@@ -1,8 +1,8 @@
 {
-  "title": "The Show",
+  "title": "Brad & Will Made A Techpod",
   "tagline": "Every episode, fully transcribed and searchable.",
-  "podcast_url": "",
-  "feed_url": "",
+  "podcast_url": "https://techpod.content.town/",
+  "feed_url": "https://feeds.simplecast.com/qKIEAGzn",
   "whisper_model": "~/whisper-models/ggml-medium.en.bin",
   "default_speaker": "SPEAKER",
   "speaker_map": "",
